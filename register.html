@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login </title>
+    <link rel="stylesheet" type="text/css" href="font-awesome.css">
+</head>
+<body>
+    <div class="overlay">
+        <form>
+            <div class="con">
+                <header class="head-form">
+                </header>
+                <br>
+                <div class="field-set">
+                    <input type="text" id="name" placeholder="Adınız:" onkeyup="validate();">
+                    <input type="text" id="name2" placeholder="Soyadınız:" onkeyup="validate();">
+                    <br>
+                    <input class="form-input" type="email" placeholder="E-mail adresi" id="email" name="email" required>
+                    <span class="hata"></span>
+                    <input class="form-input" type="tel" placeholder="Telefon" id="email" name="tel" required>
+                    <span class="hata"></span>
+                    <input class="form-input" type="password" placeholder="Şifre" id="pwd" name="password" required>
+                    <span class="hata"></span></td>
+                    <input class="form-input" type="password" placeholder="Şifre onayı" id="pwd2" name="repassword" required i class="fa fa-eye-slash"></i>
+                    <span>
+                        <i class="fa fa-eye" aria-hidden="true" type="button" id="eye"> <img src="images/eye.png" alt="eye2"></i>
+                    </span>
+                    <button class="register"> Üye Ol </button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <script src="main.js">formValidation()</script>
+</body>
+</html>
+<script type="text/javascript">
+    function validate() {
+        var inputlar = new Array();
+        inputlar[0] = document.getElementById('name');
+        inputlar[1] = document.getElementById('name2');
+        inputlar[2] = document.getElementById('email');
+        inputlar[3] = document.getElementById('pwd');
+        inputlar[4] = document.getElementById('pwd2');
+        var hatalar = new Array();
+        hatalar[0] = "Adınızı girin";
+        hatalar[1] = "Soyadınızı girin";
+        hatalar[2] = "Eposta adresinizi doğru girin";
+        hatalar[3] = "Şifrenizi girin";
+        hatalar[4] = "Şifre tekrar şifre ile uygun olmalı";
+        for (i in inputlar) {
+            //yazdırılacak hata mesajı
+            var hataMesaj = hatalar[i];
+            //hatanın yazdırılacağı span etiketi örn: #isim+span şeklinde
+            var span = document.querySelector("#" + inputlar[i].id + "+span");
+            span.style = "color:red";
+            //input nesneleri boş mu kontrolü
+            if (inputlar[i].value == "") {
+                span.innerHTML = hataMesaj;
+            }
+            else if (inputlar[i].id == "eposta") {
+                var atpos = inputlar[i].value.indexOf("@");
+                var nokpos = inputlar[i].value.lastIndexOf(".");
+                if (atpos < 1 || nokpos < atpos + 2 || nokpos + 2 >= inputlar[i].value.length) {
+                    span.innerHTML = hataMesaj;
+                }
+                else {
+                    span.innerHTML = "tamam!";
+                    span.style = "color:green";
+                }
+            }
+            else if (inputlar[i].id == "sifre") {
+                var sifre = document.getElementById('sifre').value;
+                var sifre2 = document.getElementById('sifre2').value;
+                if (sifre != sifre2) {
+                    span.innerHTML = hataMesaj;
+                }
+                else {
+                    span.innerHTML = "tamam!";
+                    span.style = "color:green";
+                }
+            }
+            else {
+                span.innerHTML = "tamam!";
+                span.style = "color:green";
+            }
+            //onaylama butonu pasifleştir
+            var onayBtn = document.getElementById('onay');
+            onayBtn.disabled = "disabled";
+            onayBtn.style = "background:red;color:white";
+
+            //buton aktif olması için tamam! sayısı kontrol edilen input sayısı kadar olmalı
+            var spanlar = document.querySelectorAll("span.hata");
+            var onayliSayi = 0;
+            for (var i = 0; i < spanlar.length; i++) {
+                if (spanlar[i].innerHTML == "tamam!") {
+                    onayliSayi++;
+                }
+            }
+            //tamam sayisi span sayısı kadar olduğunda buton aktifolacak
+            if (onayliSayi == spanlar.length) {
+                onayBtn.disabled = false;
+                onayBtn.style = "background:green;color:white";
+            }
+        }
+    }
+</script>
